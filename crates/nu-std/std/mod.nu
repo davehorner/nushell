@@ -34,7 +34,7 @@ use log.nu
 # ```nushell
 # >_ std path add {linux: "foo", windows: "bar", darwin: "baz"}
 # ```
-export def-env "path add" [
+export def --env "path add" [
     --ret (-r)  # return $env.PATH, useful in pipelines to avoid scoping.
     --append (-a)  # append to $env.PATH instead of prepending to.
     ...paths  # the paths to add to $env.PATH.
@@ -138,10 +138,10 @@ def check-clipboard [
 #       │     but
 #       │     the xclip clipboard command was not found on your system.
 export def clip [
-    --silent: bool  # do not print the content of the clipboard to the standard output
-    --no-notify: bool  # do not throw a notification (only on linux)
-    --no-strip: bool  # do not strip ANSI escape sequences from a string
-    --expand (-e): bool  # auto-expand the data given as input
+    --silent # do not print the content of the clipboard to the standard output
+    --no-notify  # do not throw a notification (only on linux)
+    --no-strip # do not strip ANSI escape sequences from a string
+    --expand (-e) # auto-expand the data given as input
     --codepage (-c): int  # the id of the codepage to use (only on Windows), see https://en.wikipedia.org/wiki/Windows_code_page, e.g. 65001 is for UTF-8
 ] {
     let input = (
@@ -241,8 +241,8 @@ def "from ns" [] {
 export def bench [
     code: closure  # the piece of `nushell` code to measure the performance of
     --rounds (-n): int = 50  # the number of benchmark rounds (hopefully the more rounds the less variance)
-    --verbose (-v): bool  # be more verbose (namely prints the progress)
-    --pretty: bool  # shows the results in human-readable format: "<mean> +/- <stddev>"
+    --verbose (-v) # be more verbose (namely prints the progress)
+    --pretty # shows the results in human-readable format: "<mean> +/- <stddev>"
 ] {
     let times = (
         seq 1 $rounds | each {|i|
@@ -288,6 +288,18 @@ It's been this long since (ansi green)Nushell(ansi reset)'s first commit:
 
 Startup Time: ($nu.startup-time)
 "
+}
+
+# the cute and friendly mascot of Nushell :)
+export def ellie [] {
+    let ellie = [
+        "     __  ,",
+        " .--()°'.'",
+        "'|, . ,'",
+        " !_-(_\\",
+    ]
+
+    $ellie | str join "\n" | $"(ansi green)($in)(ansi reset)"
 }
 
 # Return the current working directory
